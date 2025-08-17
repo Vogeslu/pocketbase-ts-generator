@@ -58,6 +58,8 @@ func convertPBField(pbField core.Field) pocketbase_api.CollectionField {
 		field.Required = v.Required
 	case *core.DateField:
 		field.Required = v.Required
+	case *core.GeoPointField:
+		field.Required = v.Required
 	case *core.SelectField:
 		field.MaxSelect = v.MaxSelect
 		field.Required = v.Required

@@ -2,10 +2,11 @@ package generator
 
 import (
 	"fmt"
+	"strings"
+
 	"github.com/Vogeslu/pocketbase-ts-generator/internal/cmd"
 	"github.com/Vogeslu/pocketbase-ts-generator/internal/pocketbase_api"
 	"github.com/iancoleman/strcase"
-	"strings"
 )
 
 type InterfacePropertyType int
@@ -18,6 +19,7 @@ const (
 	IptFile
 	IptEnum
 	IptRelation
+	IptGeopoint
 )
 
 type InterfaceProperty struct {
@@ -53,6 +55,8 @@ func GetInterfacePropertyType(typeName string) InterfacePropertyType {
 		return IptFile
 	case "relation":
 		return IptRelation
+	case "geoPoint":
+		return IptGeopoint
 	default:
 		return IptString
 	}
@@ -74,6 +78,8 @@ func (propertyType InterfacePropertyType) String() string {
 		return "File"
 	case IptRelation:
 		return "Relation"
+	case IptGeopoint:
+		return "GeoPoint"
 	}
 
 	return "Unknown"
@@ -139,6 +145,8 @@ func (property InterfaceProperty) getTypescriptType(flags propertyFlags) string 
 		} else {
 			return strcase.ToCamel(relationTo)
 		}
+	case IptGeopoint:
+		return "{ lon: number, lat: number }"
 	default:
 		return "string"
 	}
